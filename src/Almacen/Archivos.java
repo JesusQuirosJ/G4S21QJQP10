@@ -21,16 +21,23 @@ import java.util.logging.Logger;
  * @author JesusQuiroz
  */
 public class Archivos {
-    List<Datos> contendio = new ArrayList<>();
+    List<Datos> contenido = new ArrayList<>();
     
     public List<Datos> Leer() throws IOException{
         String Linea = null;
+        Datos datos;
         try {
             FileReader archivo = new FileReader("Datos.txt");
             BufferedReader br = new BufferedReader(archivo);
             while ((Linea = br.readLine()) != null){
-               System.out.println("valor de linea ="+ Linea);
-            }
+                datos = new Datos();
+                convertir convertir = new convertir();
+                datos = convertir.aclase(Linea);
+                contenido.add(datos);
+                
+                }
+            br .close();
+            archivo.close();
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }catch (IOException ex){
@@ -38,7 +45,7 @@ public class Archivos {
             
             
         }
-        return null;
+        return contenido;
     }
     
     public boolean Grabar(Datos cadena) throws IOException{

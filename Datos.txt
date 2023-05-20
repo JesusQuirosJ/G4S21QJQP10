@@ -1,1 +1,4 @@
 {"nombre":"jesus quiroz","edad":20,"correo":"jesus@persona.com"}
+{"nombre":"jesusqj","edad":20,"correo":"jesus@personal.com"}
+{"nombre":"chuy","edad":20,"correo":"chuy@personal.com"}
+{"nombre":"prueba1","edad":1,"correo":"p1"}

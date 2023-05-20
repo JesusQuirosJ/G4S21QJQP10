@@ -7,9 +7,13 @@ package g4s21qjqp10;
 import Almacen.Archivos;
 import Informacion.Datos;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -20,8 +24,25 @@ public class JFPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form JFPrincipal
      */
+    
+     List<Datos> lista = new ArrayList<>();
     public JFPrincipal() {
-        initComponents();
+        try {
+            initComponents();
+            btnguardar.setEnabled(false);
+            btncancelar.setEnabled(false);
+        
+            Archivos archivo = new Archivos();
+            lista = archivo.Leer();
+            CargarDatos();
+        
+        
+        } catch (IOException ex) {
+            Logger.getLogger(JFPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
     }
 
     /**
@@ -35,34 +56,33 @@ public class JFPrincipal extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaDatos = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtnombre = new javax.swing.JTextField();
         txtedad = new javax.swing.JTextField();
-        txtcorreo = new javax.swing.JTextField();
         btnnuevo = new javax.swing.JButton();
+        txtcorreo = new javax.swing.JTextField();
         btneditar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
+        btnguardar = new javax.swing.JButton();
+        btncancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         jLabel1.setText("Agenda");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Nombre", "Edad", "Correo"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TablaDatos);
 
         jLabel2.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel2.setText("Nombre");
@@ -87,8 +107,27 @@ public class JFPrincipal extends javax.swing.JFrame {
         });
 
         btneditar.setText("Editar");
+        btneditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneditarActionPerformed(evt);
+            }
+        });
 
         btneliminar.setText("Eliminar");
+
+        btnguardar.setText("Gruardar ");
+        btnguardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnguardarActionPerformed(evt);
+            }
+        });
+
+        btncancelar.setText("Cancelar ");
+        btncancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,11 +153,15 @@ public class JFPrincipal extends javax.swing.JFrame {
                     .addComponent(txtedad)
                     .addComponent(txtcorreo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btneliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btneditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnnuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnnuevo)
-                    .addComponent(btneditar)
-                    .addComponent(btneliminar))
-                .addGap(144, 144, 144))
+                    .addComponent(btncancelar)
+                    .addComponent(btnguardar))
+                .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,22 +173,29 @@ public class JFPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnnuevo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btneditar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtcorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btneliminar))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtcorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(34, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnnuevo)
+                            .addComponent(btnguardar))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btneditar)
+                            .addComponent(btncancelar))
+                        .addGap(18, 18, 18)
+                        .addComponent(btneliminar)
+                        .addGap(30, 30, 30))))
         );
 
         pack();
@@ -157,18 +207,53 @@ public class JFPrincipal extends javax.swing.JFrame {
 
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
         // TODO add your handling code here:
-        Datos datos = new Datos("jesus quiroz",20,"jesus@persona.com");
-        Archivos archivos = new Archivos();
+        txtnombre.setText("");
+        txtcorreo.setText("");
+        txtedad.setText("");
+        btnnuevo.setEnabled(false);
+        btnguardar.setEnabled(true);
+        btncancelar.setEnabled(true);
+        
+       
+        
+    }//GEN-LAST:event_btnnuevoActionPerformed
+
+    private void btneditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btneditarActionPerformed
+
+    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         try {
+            // TODO add your handling code here:
+            Datos datos = new Datos(txtnombre.getText(),Integer.parseInt(txtedad.getText()),txtcorreo.getText());
+            Archivos archivos = new Archivos();
+            
             if (archivos.Grabar(datos))
                 JOptionPane.showMessageDialog(null, "se grabo con exito","informacion",JOptionPane.INFORMATION_MESSAGE);
             else
                 JOptionPane.showMessageDialog(null, "error al grabar","informacion",JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException ex ) {
+            btnnuevo.setEnabled(true);
+            btnguardar.setEnabled(false);
+            btncancelar.setEnabled(false);
+        } catch (IOException ex) {
             Logger.getLogger(JFPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Archivos archivo = new Archivos();
+         try {
+             lista = archivo.Leer();
+         } catch (IOException ex) {
+             Logger.getLogger(JFPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+         }
+            CargarDatos();
+    }//GEN-LAST:event_btnguardarActionPerformed
+
+    private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
+        // TODO add your handling code here:
+        btnguardar.setEnabled(false);
+        btncancelar.setEnabled(false);
+        btnnuevo.setEnabled(true);
         
-    }//GEN-LAST:event_btnnuevoActionPerformed
+    }//GEN-LAST:event_btncancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,17 +289,31 @@ public class JFPrincipal extends javax.swing.JFrame {
             }
         });
     }
+    private void CargarDatos(){
+        DefaultTableModel modelotabla = new DefaultTableModel();
+        modelotabla.addColumn("nombre");
+        modelotabla.addColumn("edad");
+        modelotabla.addColumn("correo");
+        TablaDatos.setModel(modelotabla);
+        DefaultTableModel tabla = (DefaultTableModel) this.TablaDatos.getModel();
+        for (Datos datos:lista){
+        Object fila[] = new Object[]{datos.getNombre(),datos.getEdad(),datos.getCorreo()};
+        tabla.addRow(fila);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TablaDatos;
+    private javax.swing.JButton btncancelar;
     private javax.swing.JButton btneditar;
     private javax.swing.JButton btneliminar;
+    private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnnuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtcorreo;
     private javax.swing.JTextField txtedad;
     private javax.swing.JTextField txtnombre;
